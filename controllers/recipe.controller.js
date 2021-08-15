@@ -36,6 +36,31 @@ exports.findByRecipeID = (req, res) => {
   });
 }; 
 
+exports.findByUserID = (req, res) => { 
+  Recipe.findAll({ 
+    where: { userID: req.params.userID } 
+  }).then((recipe) => { 
+    res.status(200).send(recipe)
+  });
+}; 
+
+exports.findByRecipeProfile = (req, res) => { 
+  Recipe.findAll({ 
+    where: { userID: req.params.userID ,shareOption: 1} 
+  }).then((recipe) => { 
+    res.status(200).send(recipe)
+  });
+};
+
+exports.findImage = (req, res) => {
+  Recipe.findAll({
+    where: {recipeID: req.params.recipeID},
+    attributes: ['img']
+  }).then((img) => {
+    res.status(200).send(img)
+  });
+};
+
 
 exports.delete = (req, res) => {
   const recipeID = req.params.recipeID;
@@ -44,7 +69,7 @@ exports.delete = (req, res) => {
   }).then(() => {
     res.status(200).json({
         status: true,
-        message: "Recipe was deleted successfully with id = " + recipeID
+        message: "Detail was deleted successfully with id = " + recipeID
     });
   });
 };

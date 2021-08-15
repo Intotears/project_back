@@ -18,6 +18,11 @@ module.exports = function (app) {
 
   app.get("/api/find/recipe/:recipeID", recipe.findByRecipeID);
 
-  app.delete("/api/recipe/delete/:recipeID", recipe.delete);
+  app.get("/api/find/image/:recipeID", recipe.findImage);
+
+  app.get("/api/find/recipeByUserID/:userID", recipe.findByUserID);
+
+  app.get("/api/find/findByRecipeProfile/:userID", recipe.findByRecipeProfile);
+
+  app.delete("/api/detail/delete/:recipeID", recipe.delete);
 };
-//[authJwt.verifyToken]

@@ -39,6 +39,16 @@ exports.findFlavoring = (req, res) => {
   });
 };
 
+exports.findIngreByUserID = (req, res) => {
+  RecipeIngre.findAll({
+    where: { userID: req.params.userID }
+  }).then((Flavoring) => {
+    res.status(200).json(    
+      Flavoring
+    );
+  });
+};
+
 exports.createRecipeIngredients = (req, res) => {
   RecipeIngre.create({
     quantityValue : req.body.quantityValue,
@@ -50,4 +60,16 @@ exports.createRecipeIngredients = (req, res) => {
     .catch((err) => {
       res.status(500).send({ message: err.message });
     });
+};
+
+exports.delete = (req, res) => {
+  const recipeID = req.params.recipeID;
+  RecipeIngre.destroy({
+    where: { recipeID: req.params.recipeID },
+  }).then(() => {
+    res.status(200).json({
+        status: true,
+        message: "Ingredient was deleted successfully with id = " + recipeID
+    });
+  });
 };
