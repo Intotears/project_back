@@ -1,20 +1,19 @@
 module.exports = (sequelize, Sequelize) => {
-    const Collection = sequelize.define(
-      "collection",
-      {
-        collectionID: {
-          type: Sequelize.INTEGER,
-          primaryKey: true,
-          allowNull: false,
-          
-        },
+  const Collection = sequelize.define(
+    "collection",
+    {
+      collectionID: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        primaryKey: true,
+        allowNull: false,
       },
-      {
-        timestamps: false,
-        freezeTableName: true,
-      }
-    );
-  
-    return Collection;
-  };
-  
+    },
+    {
+      timestamps: false,
+      freezeTableName: true,
+    }
+  );
+
+  return Collection;
+};

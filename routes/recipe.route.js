@@ -9,12 +9,13 @@ module.exports = function (app) {
     );
     next();
   });
-
-  app.post("/api/recipe/create", recipe.createRecipe);
+  const auth = [authJwt.verifyToken];
+  
+  app.post("/api/recipe/create/:userID", recipe.createRecipe);
 
   app.get("/api/findAll/recipe", recipe.findAll);
 
-  app.get("/api/find/recipe", [authJwt.verifyToken], recipe.findByPk);
+  app.get("/api/find/recipe", auth, recipe.findByPk);
 
   app.get("/api/find/recipe/:recipeID", recipe.findByRecipeID);
 
@@ -22,7 +23,9 @@ module.exports = function (app) {
 
   app.get("/api/find/recipeByUserID/:userID", recipe.findByUserID);
 
-  app.get("/api/find/findByRecipeProfile/:userID", recipe.findByRecipeProfile);
+  app.get("/api/find/findByRecipeProfile/:userID", recipe.RecipeInUserProfile);
 
   app.delete("/api/detail/delete/:recipeID", recipe.delete);
+
+
 };

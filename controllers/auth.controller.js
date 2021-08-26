@@ -1,11 +1,13 @@
 const db = require("../models");
 const config = require("../config/auth.config");
 const User = db.user;
+const Collection = db.collection;
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
+const { createCollection } = require("./collection.controller");
 
-exports.signup = (req, res) => {
+exports.signup = (req, res, next) => {
   // Save User to Database
   User.create({
     name: req.body.name,
@@ -13,14 +15,14 @@ exports.signup = (req, res) => {
     userEmail: req.body.userEmail,
     userPassword: bcrypt.hashSync(req.body.userPassword, 8),
   })
-    .then(() => {
-      res.send({ message: "User was registered successfully!" });
+    .then((user) => {
+      res.locals.user = user;
+      console.log("dkfskldfmlsd", res.locals.user);
     })
-    .catch((err) => {
-      res.status(500).send({ message: err.message });
-    });
+  res.send({ message: "User was registered successfully!" });
+  next();
 };
-
+ 
 exports.signin = (req, res) => {
   User.findOne({
     where: {
@@ -53,10 +55,11 @@ exports.signin = (req, res) => {
         name: user.name,
         username: user.username,
         userEmail: user.userEmail,
-        accessToken: token,
+        accessToken: token, 
       });
     })
     .catch((err) => {
       res.status(500).send({ message: err.message });
     });
+    
 };

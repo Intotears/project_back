@@ -50,16 +50,19 @@ exports.findIngreByUserID = (req, res) => {
 };
 
 exports.createRecipeIngredients = (req, res) => {
-  RecipeIngre.create({
-    quantityValue : req.body.quantityValue,
-    IngredientsName: req.body.IngredientsName,
-  })
-    .then(() => { 
-      res.send({ message: "Ingredients created successfully!" });
+  for (i = 0; i < req.body.length; i++) {
+    console.log(req.body[i]);
+    RecipeIngre.create({
+      quantityValue: req.body[i].quantityValue,
+      ingredientsName: req.body[i].ingredientsName,
     })
-    .catch((err) => {
-      res.status(500).send({ message: err.message });
-    });
+      .then(() => {})
+      .catch((err) => {
+        res.status(500).send({ message: err.message });
+      });
+  }
+
+  res.send({ message: "Ingredients created successfully!" }); 
 };
 
 exports.delete = (req, res) => {

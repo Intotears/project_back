@@ -20,9 +20,9 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to yummyyum demo." });
 });
  
-const db = require("./models/index");
+const db = require("./models/index"); 
 
-db.sequelize.sync({ alter : true }).then(() => {
+db.sequelize.sync({alter  : true }).then(() => {
   console.log("Drop and Resync with { alter: true }");
 });
  
@@ -40,3 +40,4 @@ require("./routes/all_ingredients.route")(app);
 require("./routes/unit.route")(app);
 require("./routes/cooking_process.route")(app);
 require("./routes/rating.route")(app);
+require("./routes/collection.route")(app);
