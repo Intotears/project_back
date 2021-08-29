@@ -5,10 +5,8 @@ const User = db.user;
 const Recipe = db.recipe;
 
 exports.createCollection = (req, res) => {
-  console.log("eiei", res.locals.user);
-
   Collection.create({
-    userID: res.userID,
+    userID: req.userID,
   })
     .then(() => {
       res.send({ message: "Collection is ready to use." });
@@ -60,8 +58,8 @@ exports.collectingRecipe = (req, res) => {
                 });
             } else {
               return res
-              .status(204)
-              .send({ message: "Recipe is already in  collection." });
+                .status(204)
+                .send({ message: "Recipe is already in  collection." });
             }
           });
         }

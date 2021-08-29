@@ -39,12 +39,12 @@ exports.findFlavoring = (req, res) => {
   });
 };
 
-exports.findIngreByUserID = (req, res) => {
+exports.findIngreByRecipeID = (req, res) => {
   RecipeIngre.findAll({
-    where: { userID: req.params.userID }
-  }).then((Flavoring) => {
+    where: { recipeID: req.params.recipeID }
+  }).then((AllIngredient) => {
     res.status(200).json(    
-      Flavoring
+      AllIngredient
     );
   });
 };

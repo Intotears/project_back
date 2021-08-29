@@ -1,13 +1,13 @@
+const collectionServices = require("../services/collection.service");
+
 const db = require("../models");
 const config = require("../config/auth.config");
 const User = db.user;
-const Collection = db.collection;
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
-const { createCollection } = require("./collection.controller");
 
-exports.signup = (req, res, next) => {
+exports.signup = (req, res) => {
   // Save User to Database
   User.create({
     name: req.body.name,
@@ -16,13 +16,17 @@ exports.signup = (req, res, next) => {
     userPassword: bcrypt.hashSync(req.body.userPassword, 8),
   })
     .then((user) => {
-      res.locals.user = user;
-      console.log("dkfskldfmlsd", res.locals.user);
+      console.log("User was registered successfully!");
+      console.log(user.userID);
+      collectionServices.insertCollectionForUser(user.userID);
+      res.send({ message: "User was registered successfully!" });
     })
-  res.send({ message: "User was registered successfully!" });
-  next();
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+
 };
- 
+
 exports.signin = (req, res) => {
   User.findOne({
     where: {
@@ -55,11 +59,10 @@ exports.signin = (req, res) => {
         name: user.name,
         username: user.username,
         userEmail: user.userEmail,
-        accessToken: token, 
+        accessToken: token,
       });
     })
     .catch((err) => {
       res.status(500).send({ message: err.message });
     });
-    
 };

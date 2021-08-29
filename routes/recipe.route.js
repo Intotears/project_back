@@ -23,7 +23,7 @@ module.exports = function (app) {
 
   app.get("/api/find/recipeByUserID/:userID", recipe.findByUserID);
 
-  app.get("/api/find/findByRecipeProfile/:userID", recipe.RecipeInUserProfile);
+  app.get("/api/find/RecipeInUserProfile/:userID", recipe.RecipeInUserProfile);
 
   app.delete("/api/detail/delete/:recipeID", recipe.delete);
 
