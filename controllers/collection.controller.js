@@ -1,7 +1,7 @@
 const db = require("../models/index");
 const Collection = db.collection;
 const RecipeCollection = db.recipe_collection;
-const User = db.user;
+
 const Recipe = db.recipe;
 
 exports.createCollection = (req, res) => {

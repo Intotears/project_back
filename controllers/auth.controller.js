@@ -16,8 +16,7 @@ exports.signup = (req, res) => {
     userPassword: bcrypt.hashSync(req.body.userPassword, 8),
   })
     .then((user) => {
-      console.log("User was registered successfully!");
-      console.log(user.userID);
+      
       collectionServices.insertCollectionForUser(user.userID);
       res.send({ message: "User was registered successfully!" });
     })

@@ -12,8 +12,9 @@ exports.createRecipe = (req, res) => {
     serveNumber: req.body.serveNumber,
     userID: req.params.userID,
   })
-    .then(() => {
-      res.send({ message: "Recipe created successfully!" });
+    .then((recipe) => {
+      console.log(recipe.recipeID);
+      res.status(200).send({ recipeID: recipe.recipeID });
     })
     .catch((err) => {
       res.status(500).send({ message: err.message });
@@ -83,3 +84,4 @@ exports.findByPk = (req, res) => {
     });
   });
 };
+

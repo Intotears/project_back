@@ -9,7 +9,6 @@ module.exports = function (app) {
     );
     next();
   }); 
-  app.post("/api/create/collection", collection.createCollection);
   app.get("/api/find/collection/:userID", collection.findCollection);
   app.post("/api/add/collection/:userID/:recipeID", collection.collectingRecipe);
   app.delete("/api/remove/collection/:userID/:recipeID", collection.removeRecipe);
