@@ -13,7 +13,6 @@ exports.createRecipe = (req, res) => {
     userID: req.params.userID,
   })
     .then((recipe) => {
-      console.log(recipe.recipeID);
       res.status(200).send({ recipeID: recipe.recipeID });
     })
     .catch((err) => {

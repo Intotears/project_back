@@ -21,17 +21,21 @@ app.get("/", (req, res) => {
 });
  
 const db = require("./models/index"); 
+const FoodTagInit = require("./initial/foodtag.init");
 
 db.sequelize.sync({alter  : true }).then(() => {
   console.log("Drop and Resync with { alter: true }");
+  FoodTagInit.foodtagInitial();
 });
- 
+
+
+
 // Create & Listen Server
 const PORT = process.env.PORT || 3000; 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
-
+ 
 require("./routes/auth.route")(app); 
 require("./routes/user.route")(app);
 require("./routes/recipe.route")(app);
@@ -41,3 +45,4 @@ require("./routes/unit.route")(app);
 require("./routes/cooking_process.route")(app);
 require("./routes/rating.route")(app);
 require("./routes/collection.route")(app);
+require("./routes/searching.route")(app);

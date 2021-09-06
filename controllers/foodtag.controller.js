@@ -22,3 +22,12 @@ exports.createFoodtag = (req, res) => {
       );
     });
   };
+
+  exports.findByPk = (req, res) => {
+    Foodtag.findByPk(req.params.tagID).then((foodtag) => {
+      res.status(200).json({
+        status: true,
+        data: foodtag,
+      });
+    });
+  };

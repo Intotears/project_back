@@ -10,6 +10,6 @@ module.exports = function (app) {
     next();
   });
 
-  app.get("/api/search", search.searchingByRecipeName);
+  app.get("/api/recipe/search", search.searchingRecipe);
 
 };

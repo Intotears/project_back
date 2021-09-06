@@ -3,24 +3,21 @@ const Recipe = db.recipe;
 const User = db.user;
 const Ingredient = db.recipes_ingredient;
 
+const { Op } = require("sequelize");
+
 const searchingServices = require("../services/search.service");
 
-exports.searchingByRecipeName = (req, res) => {
-  Recipe.findOne({
+exports.searchingRecipe = (req, res) => {
+  const searching = req.body.word 
+  Recipe.findAll({
     where: {
-        [Op.or]:{
-            recipeName:{ 
-                [Op.like]: '%หมู'
-            } 
-        }
-      
-    },
+      recipeName: searching
+    }        
   })
-    .then((recipe) => {
-        res.send("Get in");
-    //   searchingServices.checkRecipeShareOption(recipe.recipeID);
-    })
+  .then((recipe) => {
+    res.status(200).send(recipe);
+  })
     .catch((err) => {
       res.status(500).send({ message: err.message });
     });
-};
+}; 

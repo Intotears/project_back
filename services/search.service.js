@@ -1,49 +1,44 @@
 const db = require("../models");
 const Recipe = db.recipe;
-const FoodTag = db.foodtag;
+const RecipeFoodTag = db.recipe_foodtag;
 const Ingredient = db.recipes_ingredient;
+const { Op } = require("sequelize");
 
 const RecipeSearching = (word) => {
   Recipe.findAll({
     where: {
-      recipeName: {
-        [Op.or]: {
-          [Op.like]: word,
-          [Op.notLike]: word,
-          [Op.startsWith]: word,
-          [Op.endsWith]: word,
-          [Op.substring]: word,
+      [Op.and]: {
+        recipeName: {
+          [Op.like]: "%" + word + "%",
         },
+        shareOption: 1,
       },
     },
-  })
-    .then(() => {
-      res.send({ message: "Searching for recipe" });
-    })
-    .catch((err) => {
-      res.status(500).send({ message: err.message });
-    });
+  }).then((recipe) => {
+    res.send(recipe);
+  });
 };
 const FoodTagSearching = (word) => {
-  FoodTag.findAll({
+  RecipeFoodTag.findAll({
     where: {
-      recipeName: {
-        [Op.or]: {
-          [Op.like]: word,
-          [Op.notLike]: word,
-          [Op.startsWith]: word,
-          [Op.endsWith]: word,
-          [Op.substring]: word,
+      [Op.and]: {
+        recipeName: {
+          [Op.like]: "%" + req.body.recipeName + "%",
         },
+        shareOption: 1,
       },
     },
-  })
-    .then(() => {
-      res.send({ message: "Searching by FoodTag" });
-    })
-    .catch((err) => {
-      res.status(500).send({ message: err.message });
-    });
+    include: [
+      {
+        model: Recipe,
+        where: {
+          shareOption: 1,
+        },
+      },
+    ],
+  }).then(() => {
+    res.send({ message: "Searching by FoodTag" });
+  });
 };
 
 const checkRecipeShareOption = (recipeID) => {
@@ -51,15 +46,11 @@ const checkRecipeShareOption = (recipeID) => {
     where: {
       recipeID: recipeID,
     },
-  })
-    .then((recipe) => {
-      if (recipe.shareOption == 1) {
-        return res.status(200).send(recipe);
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({ message: err.message });
-    });
+  }).then((recipe) => {
+    if (recipe.shareOption == 1) {
+      return res.status(200).send(recipe);
+    }
+  });
 };
 
 module.exports = { RecipeSearching, FoodTagSearching, checkRecipeShareOption };
